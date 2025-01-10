@@ -5,16 +5,16 @@ FROM node:lts
 WORKDIR /app
 
 # Step 3: Copy the package.json and package-lock.json to install dependencies first
-COPY package*.json ./
+COPY server/package*.json ./
 
 # Step 4: Install dependencies
 RUN npm install
 
 # Step 5: Copy the rest of the application files into the container
-COPY . .
+COPY server/ .
 
-# Step 6: Expose the port your app will run on (adjust the port as necessary)
-EXPOSE 3000
+# Step 6: Expose the port your app will run on
+EXPOSE 5000
 
 # Step 7: Command to run the application
 CMD ["npm", "start"]
