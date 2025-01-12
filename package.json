@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "cache clean": "npm cache clean --force",
-    "build": "npm run build",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "echo \"No build step required for Node.js backend\" && exit 0",
+    "test": "echo \"No tests specified yet\" && exit 0",
+    "lint": "echo \"No linting configured yet\" && exit 0",
     "clean": "rm -rf node_modules",
-    "install": "npm install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cache:clean": "npm cache clean --force"
   },
   "keywords": [],
   "author": "",
