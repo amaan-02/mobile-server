@@ -46,13 +46,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/mobile-server:latest
-            ${{ secrets.DOCKER_USERNAME }}/mobile-server:${{ github.sha }}
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mobile-server:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mobile-server:buildcache,mode=max
+      - name: Build Docker image
+        run: |
+          docker buildx build \
+          --tag ${{ secrets.DOCKER_USERNAME }}/mobile-server:latest \
+          --tag ${{ secrets.DOCKER_USERNAME }}/mobile-server:${{ github.sha }} \
+          --cache-from type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mobile-server:buildcache \
+          --cache-to type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mobile-server:buildcache,mode=max \
+          --output type=docker \
+          .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/mobile-server:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/mobile-server:${{ github.sha }}
+
+      - name: Scan Docker image
+        run: |
+          docker scan ${{ secrets.DOCKER_USERNAME }}/mobile-server:latest
