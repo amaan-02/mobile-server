@@ -1,20 +1,20 @@
-# Step 1: Use the official Node.js image (LTS version)
+# Step 1: Use Node.js LTS as the base image
 FROM node:lts
 
-# Step 2: Set the working directory inside the container to /app/server
-WORKDIR /app/server
+# Step 2: Set the working directory inside the container
+WORKDIR /app
 
-# Step 3: Copy the package.json and package-lock.json from the server folder to the working directory
-COPY server/package*.json ./
+# Step 3: Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
 # Step 4: Install dependencies
 RUN npm install
 
-# Step 5: Copy the rest of the application files from the server folder into the container
-COPY server/ ./
+# Step 5: Copy the rest of the application files into the container
+COPY . .
 
-# Step 6: Expose the port your app will run on (adjust the port as necessary)
+# Step 6: Expose the port the app runs on
 EXPOSE 5000
 
-# Step 7: Command to run the application
+# Step 7: Define the command to run the application
 CMD ["npm", "start"]
