@@ -28,11 +28,11 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    # Step 4: Run tests (optional - currently no tests)
+    # Step 4: Run tests
     - name: Run tests
       run: npm test
 
-    # Step 5: Lint code (optional - currently no linting)
+    # Step 5: Lint code (optional, can be configured later)
     - name: Lint code
       run: npm run lint
 
@@ -40,12 +40,6 @@ jobs:
     - name: Build application
       run: npm run build
 
-    # Step 7: Deploy to production (example deployment step)
-    - name: Deploy to production
-      env:
-        PORT: ${{ secrets.PORT }}
-        MONGOURI: ${{ secrets.MONGOURI }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      run: |
-        echo "Starting application..."
-        npm start
+    # Step 7: Start the application (example only)
+    - name: Start the application
+      run: npm start
