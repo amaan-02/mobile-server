@@ -1,16 +1,13 @@
-
-// In here i have provided the Mongo DB connection writed codes
-
-const mongoose = require("mongoose");
-
-mongoose.set("strictQuery", false);
+const mongoose = require('mongoose');
 
 const connectDB = async () => {
- const conn = await mongoose.connect(process.env.MONGOURI);
-
-  console.log("MongoDB database has connected");
+  try {
+    const conn = await mongoose.connect(process.env.MONGOURI); // No deprecated options
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exit(1);
+  }
 };
 
 module.exports = connectDB;
-
-
