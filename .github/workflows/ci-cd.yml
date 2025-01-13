@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # Use the version you need
+          node-version: '20'  # Use Node.js version 20
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -69,12 +69,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Deploy via SSH
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@v0.1.8
-        with:
-          script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/mobile-server:latest
-            docker stop mobile-server || true
-            docker rm mobile-server || true
-            docker run -d --name mobile-server -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/mobile-server:latest
+      # Step 2: Deploy Docker image to the server (using Docker CLI)
+      - name: Deploy Docker Image via Docker CLI
+        run: |
+          echo "Deploying Docker image to the server..."
+
+          # Pull Docker image on the server
+          docker pull ${{ secrets.DOCKER_USERNAME }}/mobile-server:latest
+
+          # Stop and remove the existing container (if any)
+          docker stop mobile-server || true
+          docker rm mobile-server || true
+
+          # Run the new container
+          docker run -d --name mobile-server -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/mobile-server:latest
